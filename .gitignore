@@ -1,0 +1,39 @@
+# dev
+.vercel/
+.yarn/
+!.yarn/releases
+.vscode/*
+!.vscode/launch.json
+!.vscode/*.code-snippets
+.idea/
+# O guarda configuraciones específicas de .idea que quieras incluir
+!.idea/workspace.xml
+!.idea/usage.statistics.xml
+!.idea/shelf
+
+# deps
+node_modules/
+bun.lockb
+
+# env
+.env
+.env.production
+.env.local
+.env.development
+.env.test
+
+# logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# misc
+.DS_Store
+http
+*.swp
+Thumbs.db
+Desktop.ini
