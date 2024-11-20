@@ -5,9 +5,12 @@
     "deploy": "vercel"
   },
   "dependencies": {
-    "hono": "^4.6.11"
+    "dotenv": "^16.4.5",
+    "hono": "^4.6.11",
+    "mongoose": "^8.8.2"
   },
   "devDependencies": {
+    "@types/bun": "^1.1.13",
     "vercel": "^32.4.1"
   }
 }

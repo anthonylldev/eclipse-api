@@ -1,14 +1,16 @@
-import { Hono } from 'hono'
-import { handle } from 'hono/vercel'
+import {Hono} from "hono";
+import connectDB from "./config/database";
+import {eventRoutes} from "./routes/event.routes";
+import {djRoutes} from "./routes/dj.routes";
 
-export const config = {
-  runtime: 'edge'
-}
+const app = new Hono();
 
-const app = new Hono().basePath('/api')
+connectDB();
 
-app.get('/', (c) => {
-  return c.json({ message: 'Hello Hono!' })
-})
+app.route('/', eventRoutes);
+app.route('/', djRoutes);
 
-export default handle(app)
+Bun.serve({
+  fetch: app.fetch,
+  port: process.env.PORT || 3000,
+});
