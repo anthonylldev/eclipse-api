@@ -3,6 +3,13 @@ import {JwtVariables} from 'hono/dist/types/middleware/jwt';
 import {authService} from '../services/auth.service';
 import {deleteCookie, setCookie,} from 'hono/cookie'
 
+const COOKIE_NAME: string = process.env.COOKIE_NAME as string;
+
+if (!COOKIE_NAME) {
+  console.error("\nThe COOKIE_NAME environment variable is required.\n");
+  process.exit(1);
+}
+
 export function registerAuthRoutes(app: Hono<{ Variables: JwtVariables }>) {
 
   app.post('/register', async (c) => {
@@ -17,7 +24,7 @@ export function registerAuthRoutes(app: Hono<{ Variables: JwtVariables }>) {
     if (token) {
       setCookie(
         c,
-        process.env.COOKIE_NAME as string,
+        COOKIE_NAME,
         token,
         {
           path: '/',
@@ -32,7 +39,7 @@ export function registerAuthRoutes(app: Hono<{ Variables: JwtVariables }>) {
   });
 
   app.post('/logout', (c) => {
-    deleteCookie(c, process.env.COOKIE_NAME as string);
+    deleteCookie(c, COOKIE_NAME);
     return c.json({}, 200);
   });
 }

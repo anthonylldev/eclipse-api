@@ -37,3 +37,4 @@ http
 *.swp
 Thumbs.db
 Desktop.ini
+.vercel
