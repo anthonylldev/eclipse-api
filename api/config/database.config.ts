@@ -1,7 +1,4 @@
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-
-dotenv.config()
 
 const uri = `mongodb+srv://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@eclipse-cluster.fys1e.mongodb.net/${process.env.DATABASE_NAME}?retryWrites=true&w=majority&appName=eclipse-cluster`;
 

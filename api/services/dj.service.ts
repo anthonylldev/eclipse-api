@@ -1,31 +1,41 @@
-import {djRepository} from "../repositories/dj.repository";
-import {IRepository} from "../interfaces/repository.interface";
 import {Dj} from "../models/dj.model";
-import {IService} from "../interfaces/service.interface";
+import {IDjService} from "../interfaces/dj-service.interface";
+import {IDjRepository} from "../interfaces/dj-repository.interface";
+import {djRepository} from "../repositories/dj.repository";
 
-class DjService implements IService<Dj> {
-  constructor(private repository: IRepository<Dj>) {
+class DjService implements IDjService {
+
+  private static instance: DjService;
+
+  private constructor(private readonly djRepository: IDjRepository) {
+  }
+
+  static getInstance(): DjService {
+    if (!DjService.instance) {
+      DjService.instance = new DjService(djRepository);
+    }
+    return DjService.instance;
   }
 
   async getById(id: string): Promise<Dj | null> {
-    return await this.repository.findById(id);
+    return this.djRepository.findDjById(id);
   }
 
   async getAll(): Promise<Dj[]> {
-    return await this.repository.findAll();
+    return this.djRepository.findAllDjs();
   }
 
-  async add(entity: Dj): Promise<Dj> {
-    return await this.repository.create(entity);
+  async create(entity: Dj): Promise<Dj> {
+    return this.djRepository.saveDj(entity);
   }
 
   async update(id: string, entity: Partial<Dj>): Promise<Dj | null> {
-    return await this.repository.update(id, entity);
+    return this.djRepository.updateDj(id, entity);
   }
 
-  async remove(id: string): Promise<boolean> {
-    return await this.repository.delete(id);
+  async delete(id: string): Promise<boolean> {
+    return this.djRepository.deleteDj(id);
   }
 }
 
-export const djService: IService<Dj> = new DjService(djRepository);
+export const djService: IDjService = DjService.getInstance();

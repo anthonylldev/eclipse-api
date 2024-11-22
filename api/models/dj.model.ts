@@ -1,5 +1,5 @@
 import {Schema, Document, model} from 'mongoose';
-import {SocialMediaPlatform} from "./social-media-platform.enum";
+import {SocialMediaPlatform} from "./enums/social-media-platform.enum";
 
 export interface Dj extends Document {
   name: string;

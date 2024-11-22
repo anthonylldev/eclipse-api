@@ -1,12 +1,46 @@
 import {Hono} from 'hono';
-import {eventController} from '../controllers/event.controller';
+import {JwtVariables} from "hono/jwt";
+import {eventService} from "../services/event.service";
 
-const eventRoutes = new Hono();
+export function registerEventRoutes(app: Hono<{ Variables: JwtVariables }>) {
+  app.post('/api/events', async (c) => {
+    return c.json(eventService.create(await c.req.json()), 201);
+  });
 
-eventRoutes.post('/events', (c) => eventController.createEvent(c));
-eventRoutes.get('/events', (c) => eventController.getAllEvents(c));
-eventRoutes.get('/events/:id', (c) => eventController.getEventById(c));
-eventRoutes.put('/events/:id', (c) => eventController.updateEvent(c));
-eventRoutes.delete('/events/:id', (c) => eventController.deleteEvent(c));
+  app.get('/events', (c) => {
+    return c.json(eventService.getAll(), 200);
+  });
 
-export {eventRoutes};
+  app.get('/events/:id', async (c) => {
+    const id = c.req.param('id');
+    const event = await eventService.getById(id);
+    if (!event) {
+      return c.notFound();
+    }
+    return c.json(event, 200);
+  });
+
+  app.put('/api/events/:id', async (c) => {
+    const id = c.req.param('id');
+    const eventData = await c.req.json();
+
+    if (!eventData) {
+      return c.json({message: 'No data provided'}, 400);
+    }
+
+    const updatedEvent = await eventService.update(id, eventData);
+    if (!updatedEvent) {
+      return c.notFound();
+    }
+    return c.json(updatedEvent);
+  });
+
+  app.delete('/api/events/:id', async (c) => {
+    const id = c.req.param('id');
+    const event = await eventService.delete(id);
+    if (!event) {
+      return c.notFound();
+    }
+    return c.json({}, 204);
+  });
+}

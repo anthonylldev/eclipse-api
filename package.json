@@ -5,12 +5,16 @@
     "deploy": "vercel"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "hono": "^4.6.11",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.2"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/bun": "^1.1.13",
+    "@types/jsonwebtoken": "^9.0.7",
     "vercel": "^32.4.1"
   }
 }

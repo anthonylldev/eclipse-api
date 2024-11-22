@@ -1,28 +1,47 @@
 import {Event, EventModel} from '../models/event.model';
-import {IRepository} from '../interfaces/repository.interface';
+import {IEventRepository} from "../interfaces/event-repository.interface";
 
-class EventRepository implements IRepository<Event> {
-  async findById(id: string): Promise<Event | null> {
-    return await EventModel.findById(id).populate('principalLineUp').populate('lineUp').exec();
+const POPULATE_FIELDS = ['principalLineUp', 'lineUp'];
+
+class EventRepository implements IEventRepository {
+
+  private static instance: EventRepository;
+
+  private constructor() {
   }
 
-  async findAll(): Promise<Event[]> {
-    return await EventModel.find().populate('principalLineUp').populate('lineUp').exec();
+  static getInstance(): EventRepository {
+    if (!EventRepository.instance) {
+      EventRepository.instance = new EventRepository();
+    }
+    return EventRepository.instance;
   }
 
-  async create(event: Event): Promise<Event> {
+  private populateFields(query: any) {
+    return POPULATE_FIELDS.reduce((q, field) => q.populate(field), query);
+  }
+
+  async findEventById(id: string): Promise<Event | null> {
+    return this.populateFields(EventModel.findById(id)).exec();
+  }
+
+  async findAllEvents(): Promise<Event[]> {
+    return this.populateFields(EventModel.find()).exec();
+  }
+
+  async saveEvent(event: Event): Promise<Event> {
     const newEvent = new EventModel(event);
-    return await newEvent.save();
+    return newEvent.save();
   }
 
-  async update(id: string, event: Partial<Event>): Promise<Event | null> {
-    return await EventModel.findByIdAndUpdate(id, event, {new: true}).populate('principalLineUp').populate('lineUp').exec();
+  async updateEvent(id: string, event: Partial<Event>): Promise<Event | null> {
+    return this.populateFields(EventModel.findByIdAndUpdate(id, event, {new: true})).exec();
   }
 
-  async delete(id: string): Promise<boolean> {
-    const result = await EventModel.findByIdAndDelete(id).exec();
+  async deleteEvent(id: string): Promise<boolean> {
+    const result = EventModel.findByIdAndDelete(id).exec();
     return result !== null;
   }
 }
 
-export const eventRepository: IRepository<Event> = new EventRepository();
+export const eventRepository: IEventRepository = EventRepository.getInstance();

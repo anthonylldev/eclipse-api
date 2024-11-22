@@ -1,4 +1,4 @@
-import {Schema, Document, model} from 'mongoose';
+import {Document, model, Schema} from 'mongoose';
 import {Dj} from './dj.model';
 
 export interface Event extends Document {
