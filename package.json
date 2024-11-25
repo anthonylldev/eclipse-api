@@ -1,0 +1,19 @@
+{
+  "name": "eclipse-api",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "start": "vercel dev",
+    "deploy": "vercel"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "hono": "^4.6.12"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vercel": "^39.1.1"
+  }
+}
