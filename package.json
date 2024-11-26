@@ -1,14 +1,12 @@
 {
   "name": "eclipse-api",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "",
   "scripts": {
     "start": "vercel dev",
     "deploy": "vercel"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Anthony Fabian Leon Lucero",
   "dependencies": {
     "hono": "^4.6.12",
     "mongoose": "^8.8.2"
