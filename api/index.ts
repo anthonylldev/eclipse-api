@@ -2,6 +2,7 @@ import {Hono} from 'hono'
 import {handle} from 'hono/vercel'
 import connectToDatabase from "./config/mongo.config";
 import {registerDjRoutes} from "./routes/dj.routes";
+import {registerEventRoutes} from "./routes/event.routes";
 
 const app = new Hono().basePath('/api')
 
@@ -12,6 +13,7 @@ app.get('/', (c) => {
 })
 
 registerDjRoutes(app);
+registerEventRoutes(app);
 
 const handler = handle(app);
 
