@@ -10,9 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "hono": "^4.6.12"
+    "hono": "^4.6.12",
+    "mongoose": "^8.8.2"
   },
   "devDependencies": {
+    "@types/node": "^22.9.4",
     "typescript": "^5.7.2",
     "vercel": "^39.1.1"
   }
