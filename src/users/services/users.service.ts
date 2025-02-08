@@ -10,4 +10,8 @@ export class UsersService {
   async findAll(): Promise<User[]> {
     return this.userModel.find().select('-password').exec();
   }
+
+  async findUserByEmail(email: string): Promise<User | null> {
+    return this.userModel.findOne({ email }).exec();
+  }
 }

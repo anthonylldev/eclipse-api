@@ -1,15 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ObjectId } from 'mongoose';
+import { Types } from 'mongoose';
 
 @Schema()
 export class User {
-  _id: ObjectId;
+  @Prop({ type: Types.ObjectId })
+  _id: Types.ObjectId;
 
   @Prop({ required: true, maxlength: 50 })
   name: string;
 
-  @Prop({ required: true, unique: true, maxlength: 20 })
-  username: string;
+  @Prop({ required: true, unique: true })
+  email: string;
 
   @Prop({ required: true, minlength: 8 })
   password: string;
