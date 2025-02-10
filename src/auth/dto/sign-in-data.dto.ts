@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 
-export interface SignInData {
+export class SignInData {
   userId: Types.ObjectId;
   email: string;
 }
