@@ -8,11 +8,11 @@ import { UserDto } from '../dto/user.dto';
 export class UsersService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
-  async findAll(): Promise<UserDto[]> {
+  findAll(): Promise<UserDto[]> {
     return this.userModel.find().select('-password').exec();
   }
 
-  async findUserByEmail(email: string): Promise<User | null> {
+  findUserByEmail(email: string): Promise<User | null> {
     return this.userModel.findOne({ email }).exec();
   }
 }

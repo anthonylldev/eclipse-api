@@ -15,7 +15,7 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { UserDto } from '../dto/user.dto';
-import { UnauthorizedResponseDto } from '../../common/dto/unauthorized-response.dto';
+import { ExceptionResponseDto } from '../../common/dto/exception-response.dto';
 
 @Controller('users')
 @ApiTags('Users')
@@ -32,15 +32,19 @@ export class UsersController {
       'This endpoint retrieves a list of all registered users in the system. Requires JWT authentication.',
   })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'List of all users retrieved successfully.',
     type: UserDto,
   })
   @ApiUnauthorizedResponse({
     description: 'Unauthorized. The JWT was missing or invalid.',
-    type: UnauthorizedResponseDto,
+    type: ExceptionResponseDto,
+    example: {
+      statusCode: HttpStatus.UNAUTHORIZED,
+      message: 'Unauthorized',
+    },
   })
-  async findAll(): Promise<UserDto[]> {
+  findAll(): Promise<UserDto[]> {
     return this.usersService.findAll();
   }
 }

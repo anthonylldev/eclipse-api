@@ -10,6 +10,7 @@ import { AuthService } from '../services/auth.service';
 import { PassportLocalGuard } from '../guards/passport-local/passport-local.guard';
 import { UserRequest } from '../interfaces/user-request.interface';
 import {
+  ApiBadRequestResponse,
   ApiBearerAuth,
   ApiBody,
   ApiOperation,
@@ -19,7 +20,7 @@ import {
 } from '@nestjs/swagger';
 import { AuthResultDto } from '../dto/auth-result.dto';
 import { LoginDto } from '../dto/login.dto';
-import { UnauthorizedResponseDto } from '../../common/dto/unauthorized-response.dto';
+import { ExceptionResponseDto } from '../../common/dto/exception-response.dto';
 
 @Controller('auth')
 @ApiTags('Auth')
@@ -42,14 +43,26 @@ export class AuthController {
     type: LoginDto,
   })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description:
       'Successfully authenticated. The response includes an access token and user information.',
     type: AuthResultDto,
   })
   @ApiUnauthorizedResponse({
     description: 'Invalid credentials. The user was not authenticated.',
-    type: UnauthorizedResponseDto,
+    type: ExceptionResponseDto,
+    example: {
+      statusCode: HttpStatus.UNAUTHORIZED,
+      message: 'Invalid credentials',
+    },
+  })
+  @ApiBadRequestResponse({
+    description: 'Invalid request body.',
+    type: ExceptionResponseDto,
+    example: {
+      statusCode: HttpStatus.BAD_REQUEST,
+      message: 'Invalid credentials',
+    },
   })
   login(@Request() request: UserRequest): Promise<AuthResultDto> {
     return this.authService.signIn(request.user);
