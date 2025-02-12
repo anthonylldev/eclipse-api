@@ -1,18 +1,28 @@
-import { Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
+import { Inject, Injectable } from '@nestjs/common';
 import { User } from '../entities/user.entity';
-import { InjectModel } from '@nestjs/mongoose';
 import { UserDto } from '../dto/user.dto';
+import { Repository } from 'typeorm';
+import { plainToInstance } from 'class-transformer';
+import { USER_REPOSITORY } from '../../config/constants/repositories.constant';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
+  constructor(
+    @Inject(USER_REPOSITORY)
+    private userRepository: Repository<User>,
+  ) {}
 
-  findAll(): Promise<UserDto[]> {
-    return this.userModel.find().select('-password').exec();
+  async findAll(): Promise<UserDto[]> {
+    const users = await this.userRepository.find();
+
+    return users.map((event) =>
+      plainToInstance(UserDto, event, {
+        excludeExtraneousValues: true,
+      }),
+    );
   }
 
   findUserByEmail(email: string): Promise<User | null> {
-    return this.userModel.findOne({ email }).exec();
+    return this.userRepository.findOneBy({ email });
   }
 }

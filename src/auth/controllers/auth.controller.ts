@@ -11,7 +11,6 @@ import { PassportLocalGuard } from '../guards/passport-local/passport-local.guar
 import { UserRequest } from '../interfaces/user-request.interface';
 import {
   ApiBadRequestResponse,
-  ApiBearerAuth,
   ApiBody,
   ApiOperation,
   ApiResponse,
@@ -30,7 +29,6 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   @UseGuards(PassportLocalGuard)
-  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Authenticate user and return access token',
     description:

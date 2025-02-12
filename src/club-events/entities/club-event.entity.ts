@@ -1,21 +1,33 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Dj } from '../../djs/entities/dj.entity';
 
-@Schema()
+@Entity()
 export class ClubEvent {
-  @Prop({ required: true, minlength: 3, maxlength: 100 })
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column({ length: 100 })
   name: string;
 
-  @Prop({ minlength: 10, maxlength: 500 })
+  @Column({ length: 500, nullable: true })
   description: string;
 
-  @Prop({ required: true })
+  @Column()
   date: Date;
 
-  @Prop({ minlength: 5, maxlength: 2048 })
+  @Column({ length: 2048, nullable: true })
   ticketsUrl: string;
 
-  @Prop({ minlength: 5, maxlength: 2048 })
+  @Column({ length: 2048, nullable: true })
   imageUrl: string;
-}
 
-export const ClubEventSchema = SchemaFactory.createForClass(ClubEvent);
+  @ManyToMany(() => Dj, (dj) => dj.clubEvents)
+  @JoinTable()
+  djs: Dj[];
+}

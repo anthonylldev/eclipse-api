@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   UseGuards,
@@ -81,7 +82,7 @@ export class ClubEventsController {
     name: 'id',
     description: 'Unique identifier of the club event to find.',
     required: true,
-    type: String,
+    type: Number,
   })
   @ApiOkResponse({
     description: 'Club event found successfully.',
@@ -95,7 +96,7 @@ export class ClubEventsController {
       message: 'Club event not found',
     },
   })
-  findOne(@Param('id') id: string): Promise<ClubEventDto> {
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<ClubEventDto> {
     return this.clubEventsService.findOne(id);
   }
 
@@ -117,7 +118,7 @@ export class ClubEventsController {
     name: 'id',
     description: 'Unique identifier of the club event to update.',
     required: true,
-    type: String,
+    type: Number,
   })
   @ApiOkResponse({
     description: 'Club event updated successfully.',
@@ -132,7 +133,7 @@ export class ClubEventsController {
     },
   })
   update(
-    @Param('id') id: string,
+    @Param('id', ParseIntPipe) id: number,
     @Body() updateClubEventDto: UpdateClubEventDto,
   ): Promise<ClubEventDto> {
     return this.clubEventsService.update(id, updateClubEventDto);
@@ -151,7 +152,7 @@ export class ClubEventsController {
     name: 'id',
     description: 'Unique identifier of the club event to update.',
     required: true,
-    type: String,
+    type: Number,
   })
   @ApiNoContentResponse({
     description: 'Club event deleted successfully.',
@@ -164,7 +165,7 @@ export class ClubEventsController {
       message: 'Club event not found',
     },
   })
-  remove(@Param('id') id: string): Promise<void> {
+  remove(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.clubEventsService.remove(id);
   }
 }

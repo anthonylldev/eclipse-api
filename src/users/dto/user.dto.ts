@@ -1,23 +1,28 @@
-import { Types } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
+import { Exclude, Expose } from 'class-transformer';
 
 export class UserDto {
   @ApiProperty({
     description: 'Unique identifier for the user',
-    example: '64d1a402147860301542c0b3',
-    type: 'string',
+    example: '<ID>',
   })
-  _id: Types.ObjectId;
+  @Expose()
+  id: number;
 
   @ApiProperty({
     description: 'The name of the user',
     example: 'John Doe',
   })
+  @Expose()
   name: string;
 
   @ApiProperty({
     description: 'Email address of the user',
     example: 'johndoe@example.com',
   })
+  @Expose()
   email: string;
+
+  @Exclude()
+  password: string;
 }

@@ -1,58 +1,77 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateClubEventDto } from '../dto/create-club-event.dto';
 import { UpdateClubEventDto } from '../dto/update-club-event.dto';
-import { InjectModel } from '@nestjs/mongoose';
 import { ClubEvent } from '../entities/club-event.entity';
-import { Model } from 'mongoose';
 import { ClubEventDto } from '../dto/club-event.dto';
+import { plainToInstance } from 'class-transformer';
+import { CLUB_EVENT_REPOSITORY } from '../../config/constants/repositories.constant';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ClubEventsService {
   constructor(
-    @InjectModel('ClubEvent')
-    private readonly clubEventModel: Model<ClubEvent>,
+    @Inject(CLUB_EVENT_REPOSITORY)
+    private clubEventRepository: Repository<ClubEvent>,
   ) {}
 
-  create(createClubEventDto: CreateClubEventDto): Promise<ClubEventDto> {
-    const newClubEvent = new this.clubEventModel(createClubEventDto);
-    return newClubEvent.save();
+  async create(createClubEventDto: CreateClubEventDto): Promise<ClubEventDto> {
+    const newClubEvent = plainToInstance(ClubEvent, createClubEventDto);
+    const savedClubEvent = await this.clubEventRepository.save(newClubEvent);
+
+    return plainToInstance(ClubEventDto, savedClubEvent, {
+      excludeExtraneousValues: true,
+    });
   }
 
-  findAll(): Promise<ClubEventDto[]> {
-    return this.clubEventModel.find().exec();
+  async findAll(): Promise<ClubEventDto[]> {
+    const clubEvents = await this.clubEventRepository.find();
+
+    return clubEvents.map((clubEvent) =>
+      plainToInstance(ClubEventDto, clubEvent, {
+        excludeExtraneousValues: true,
+      }),
+    );
   }
 
-  async findOne(id: string): Promise<ClubEventDto> {
-    const clubEvent = await this.clubEventModel.findOne({ _id: id }).exec();
+  async findOne(id: number): Promise<ClubEventDto> {
+    const clubEvent = await this.clubEventRepository.findOneBy({ id });
 
     if (!clubEvent) {
       throw new NotFoundException(`Club event with ID ${id} not found`);
     }
 
-    return clubEvent;
+    return plainToInstance(ClubEventDto, clubEvent, {
+      excludeExtraneousValues: true,
+    });
   }
 
   async update(
-    id: string,
+    id: number,
     updateClubEventDto: UpdateClubEventDto,
   ): Promise<ClubEventDto> {
-    const updatedClubEvent = await this.clubEventModel
-      .findByIdAndUpdate(id, updateClubEventDto, { new: true })
-      .exec();
+    const clubEvent = await this.clubEventRepository.findOneBy({ id });
 
-    if (!updatedClubEvent) {
+    if (!clubEvent) {
       throw new NotFoundException(`Club event with ID ${id} not found`);
     }
 
-    return updatedClubEvent;
+    const updatedClubEvent = this.clubEventRepository.merge(
+      clubEvent,
+      updateClubEventDto,
+    );
+
+    const savedClubEvent =
+      await this.clubEventRepository.save(updatedClubEvent);
+
+    return plainToInstance(ClubEventDto, savedClubEvent, {
+      excludeExtraneousValues: true,
+    });
   }
 
-  async remove(id: string): Promise<void> {
-    const deletedClubEvent = await this.clubEventModel
-      .findByIdAndDelete(id)
-      .exec();
+  async remove(id: number): Promise<void> {
+    const deletedClubEvent = await this.clubEventRepository.delete(id);
 
-    if (!deletedClubEvent) {
+    if (deletedClubEvent.affected === 0) {
       throw new NotFoundException(`Club event with ID ${id} not found`);
     }
   }

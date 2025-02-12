@@ -1,12 +1,13 @@
-import { Document, Types } from 'mongoose';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
 
-export class ClubEventDto extends Document {
+export class ClubEventDto {
   @ApiProperty({
     description: 'The unique identifier for the event',
-    example: new Types.ObjectId(),
+    example: '<ID>',
   })
-  _id: Types.ObjectId;
+  @Expose()
+  id: number;
 
   @ApiProperty({
     description: 'The name of the event',
@@ -14,6 +15,7 @@ export class ClubEventDto extends Document {
     minLength: 3,
     maxLength: 100,
   })
+  @Expose()
   name: string;
 
   @ApiPropertyOptional({
@@ -22,6 +24,7 @@ export class ClubEventDto extends Document {
     minLength: 10,
     maxLength: 500,
   })
+  @Expose()
   description: string;
 
   @ApiProperty({
@@ -29,6 +32,7 @@ export class ClubEventDto extends Document {
     example: '2023-12-15T09:00:00.000Z',
     format: 'date-time',
   })
+  @Expose()
   date: Date;
 
   @ApiPropertyOptional({
@@ -38,6 +42,7 @@ export class ClubEventDto extends Document {
     maxLength: 2048,
     format: 'uri',
   })
+  @Expose()
   ticketsUrl: string;
 
   @ApiPropertyOptional({
@@ -47,5 +52,6 @@ export class ClubEventDto extends Document {
     maxLength: 2048,
     format: 'uri',
   })
+  @Expose()
   imageUrl: string;
 }

@@ -1,6 +1,4 @@
-import { Types } from 'mongoose';
-
 export class SignInData {
-  userId: Types.ObjectId;
+  userId: number;
   email: string;
 }

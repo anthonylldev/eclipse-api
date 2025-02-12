@@ -19,7 +19,7 @@ export class AuthService {
 
     if (user && (await this.comparePassword(user, input.password))) {
       return {
-        userId: user._id,
+        userId: user.id,
         email: user.email,
       };
     }

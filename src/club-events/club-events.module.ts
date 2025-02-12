@@ -1,19 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ClubEventsService } from './services/club-events.service';
 import { ClubEventsController } from './controllers/club-events.controller';
-import { ClubEventSchema } from './entities/club-event.entity';
-import { MongooseModule } from '@nestjs/mongoose';
+import { DatabaseModule } from '../database/database.module';
+import { clubEventProvider } from './providers/club-event.provider';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      {
-        name: 'ClubEvent',
-        schema: ClubEventSchema,
-      },
-    ]),
-  ],
+  imports: [DatabaseModule],
   controllers: [ClubEventsController],
-  providers: [ClubEventsService],
+  providers: [...clubEventProvider, ClubEventsService],
 })
 export class ClubEventsModule {}
