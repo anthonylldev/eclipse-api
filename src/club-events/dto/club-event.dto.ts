@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
+import { DjDto } from '../../djs/dto/dj.dto';
 
 export class ClubEventDto {
   @ApiProperty({
@@ -54,4 +55,13 @@ export class ClubEventDto {
   })
   @Expose()
   imageUrl: string;
+
+  @ApiPropertyOptional({
+    description: 'Djs links for the event',
+    type: DjDto,
+    isArray: true,
+  })
+  @Expose()
+  @Type(() => DjDto)
+  djs: DjDto[];
 }

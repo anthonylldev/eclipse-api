@@ -6,7 +6,7 @@ import { DjDto } from '../dto/dj.dto';
 import { plainToInstance } from 'class-transformer';
 import { DJ_REPOSITORY } from '../../config/constants/repositories.constant';
 import { Repository } from 'typeorm';
-import { EntityListDto } from '../../common/dto/entity-list.dto';
+import { BasicToListDto } from '../../common/dto/basic-to-list.dto';
 
 @Injectable()
 export class DjsService {
@@ -21,11 +21,11 @@ export class DjsService {
     });
   }
 
-  async findAll(): Promise<EntityListDto[]> {
+  async findAll(): Promise<BasicToListDto[]> {
     const djs = await this.djRepository.find();
 
     return djs.map((dj) =>
-      plainToInstance(EntityListDto, dj, {
+      plainToInstance(BasicToListDto, dj, {
         excludeExtraneousValues: true,
       }),
     );

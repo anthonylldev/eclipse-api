@@ -1,7 +1,7 @@
 import { Expose } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class EntityListDto {
+export class BasicToListDto {
   @ApiProperty({
     description: 'The unique identifier for the <ENTITY>',
     example: '<ID>',

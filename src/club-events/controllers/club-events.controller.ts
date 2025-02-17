@@ -28,6 +28,7 @@ import {
 import { PassportJwtGuard } from '../../auth/guards/passport-jwt/passport-jwt.guard';
 import { ClubEventDto } from '../dto/club-event.dto';
 import { ExceptionResponseDto } from '../../common/dto/exception-response.dto';
+import { BasicToListDto } from '../../common/dto/basic-to-list.dto';
 
 @Controller('club-events')
 @ApiTags('Club events')
@@ -66,9 +67,9 @@ export class ClubEventsController {
   })
   @ApiOkResponse({
     description: 'List of all club events retrieved successfully.',
-    type: ClubEventDto,
+    type: BasicToListDto,
   })
-  findAll(): Promise<ClubEventDto[]> {
+  findAll(): Promise<BasicToListDto[]> {
     return this.clubEventsService.findAll();
   }
 

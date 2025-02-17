@@ -24,6 +24,8 @@ export class Dj {
 
   @OneToMany(() => SocialMedia, (socialMedia) => socialMedia.dj, {
     cascade: ['insert', 'update'],
+    orphanedRowAction: 'delete',
+    onDelete: 'CASCADE',
   })
   socialMedias: SocialMedia[];
 

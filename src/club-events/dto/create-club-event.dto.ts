@@ -8,6 +8,8 @@ import {
   MinLength,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { CreateDjDto } from '../../djs/dto/create-dj.dto';
+import { DjDto } from '../../djs/dto/dj.dto';
 
 export class CreateClubEventDto {
   @ApiProperty({
@@ -68,4 +70,12 @@ export class CreateClubEventDto {
   @MinLength(5)
   @MaxLength(2048)
   imageUrl: string;
+
+  @ApiPropertyOptional({
+    description: 'Dj links for the dj',
+    type: CreateDjDto,
+    isArray: true,
+  })
+  @IsOptional()
+  djs: DjDto[];
 }

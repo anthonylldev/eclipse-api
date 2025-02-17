@@ -6,8 +6,10 @@ import {
   IsUrl,
   MaxLength,
   MinLength,
+  ValidateNested,
 } from 'class-validator';
 import { CreateSocialMediaDto } from '../../social-medias/dto/create-social-media.dto';
+import { Type } from 'class-transformer';
 
 export class CreateDjDto {
   @ApiProperty({
@@ -53,5 +55,7 @@ export class CreateDjDto {
     isArray: true,
   })
   @IsOptional()
+  @Type(() => CreateSocialMediaDto)
+  @ValidateNested({ each: true })
   socialMedias: CreateSocialMediaDto[];
 }
