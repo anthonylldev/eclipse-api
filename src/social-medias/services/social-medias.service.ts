@@ -42,18 +42,14 @@ export class SocialMediasService {
     const savedSocialMedia =
       await this.socialMediaRepository.save(newSocialMedia);
 
-    return plainToInstance(SocialMediaDto, savedSocialMedia, {
-      excludeExtraneousValues: true,
-    });
+    return plainToInstance(SocialMediaDto, savedSocialMedia);
   }
 
   async findAll(): Promise<SocialMediaDto[]> {
     const socialMedias = await this.socialMediaRepository.find();
 
     return socialMedias.map((socialMedia) =>
-      plainToInstance(SocialMediaDto, socialMedia, {
-        excludeExtraneousValues: true,
-      }),
+      plainToInstance(SocialMediaDto, socialMedia),
     );
   }
 
@@ -64,9 +60,7 @@ export class SocialMediasService {
       throw new NotFoundException(`Social media with ID ${id} not found`);
     }
 
-    return plainToInstance(SocialMediaDto, socialMedia, {
-      excludeExtraneousValues: true,
-    });
+    return plainToInstance(SocialMediaDto, socialMedia);
   }
 
   async update(
@@ -87,9 +81,7 @@ export class SocialMediasService {
     const savedSocialMedia =
       await this.socialMediaRepository.save(updatedSocialMedia);
 
-    return plainToInstance(SocialMediaDto, savedSocialMedia, {
-      excludeExtraneousValues: true,
-    });
+    return plainToInstance(SocialMediaDto, savedSocialMedia);
   }
 
   async remove(id: number): Promise<void> {

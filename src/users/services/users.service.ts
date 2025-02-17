@@ -15,11 +15,7 @@ export class UsersService {
   async findAll(): Promise<UserDto[]> {
     const users = await this.userRepository.find();
 
-    return users.map((event) =>
-      plainToInstance(UserDto, event, {
-        excludeExtraneousValues: true,
-      }),
-    );
+    return users.map((event) => plainToInstance(UserDto, event));
   }
 
   findUserByEmail(email: string): Promise<User | null> {

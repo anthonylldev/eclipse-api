@@ -16,19 +16,13 @@ export class DjsService {
     const newDj = plainToInstance(Dj, createDjDto);
     const savedDj = await this.djRepository.save(newDj);
 
-    return plainToInstance(DjDto, savedDj, {
-      excludeExtraneousValues: true,
-    });
+    return plainToInstance(DjDto, savedDj);
   }
 
   async findAll(): Promise<BasicToListDto[]> {
     const djs = await this.djRepository.find();
 
-    return djs.map((dj) =>
-      plainToInstance(BasicToListDto, dj, {
-        excludeExtraneousValues: true,
-      }),
-    );
+    return djs.map((dj) => plainToInstance(BasicToListDto, dj));
   }
 
   async findOne(id: number): Promise<DjDto> {
@@ -42,7 +36,6 @@ export class DjsService {
     }
 
     return plainToInstance(DjDto, dj, {
-      excludeExtraneousValues: true,
       enableImplicitConversion: true,
     });
   }
@@ -58,9 +51,7 @@ export class DjsService {
 
     const savedDj = await this.djRepository.save(updatedDj);
 
-    return plainToInstance(DjDto, savedDj, {
-      excludeExtraneousValues: true,
-    });
+    return plainToInstance(DjDto, savedDj);
   }
 
   async remove(id: number): Promise<void> {

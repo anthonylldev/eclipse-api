@@ -31,9 +31,7 @@ export class ClubEventsService {
 
     const savedClubEvent = await this.clubEventRepository.save(newClubEvent);
 
-    return plainToInstance(ClubEventDto, savedClubEvent, {
-      excludeExtraneousValues: true,
-    });
+    return plainToInstance(ClubEventDto, savedClubEvent);
   }
 
   private async validateAndFetchDjs(djsDto: DjDto[]) {
@@ -55,9 +53,7 @@ export class ClubEventsService {
     const clubEvents = await this.clubEventRepository.find();
 
     return clubEvents.map((clubEvent) =>
-      plainToInstance(BasicToListDto, clubEvent, {
-        excludeExtraneousValues: true,
-      }),
+      plainToInstance(BasicToListDto, clubEvent),
     );
   }
 
@@ -72,7 +68,6 @@ export class ClubEventsService {
     }
 
     return plainToInstance(ClubEventDto, clubEvent, {
-      excludeExtraneousValues: true,
       enableImplicitConversion: true,
     });
   }
@@ -101,9 +96,7 @@ export class ClubEventsService {
     const savedClubEvent =
       await this.clubEventRepository.save(updatedClubEvent);
 
-    return plainToInstance(ClubEventDto, savedClubEvent, {
-      excludeExtraneousValues: true,
-    });
+    return plainToInstance(ClubEventDto, savedClubEvent);
   }
 
   async remove(id: number): Promise<void> {
