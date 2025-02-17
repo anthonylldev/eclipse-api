@@ -4,20 +4,41 @@ import { UpdateSocialMediaDto } from '../dto/update-social-media.dto';
 import { SocialMedia } from '../entities/social-media.entity';
 import { SocialMediaDto } from '../dto/social-media.dto';
 import { plainToInstance } from 'class-transformer';
-import { SOCIAL_MEDIA_REPOSITORY } from '../../config/constants/repositories.constant';
+import {
+  DJ_REPOSITORY,
+  SOCIAL_MEDIA_REPOSITORY,
+} from '../../config/constants/repositories.constant';
 import { Repository } from 'typeorm';
+import { Dj } from '../../djs/entities/dj.entity';
 
 @Injectable()
 export class SocialMediasService {
   constructor(
     @Inject(SOCIAL_MEDIA_REPOSITORY)
     private socialMediaRepository: Repository<SocialMedia>,
+    @Inject(DJ_REPOSITORY)
+    private djRepository: Repository<Dj>,
   ) {}
 
   async create(
     createSocialMediaDto: CreateSocialMediaDto,
   ): Promise<SocialMediaDto> {
     const newSocialMedia = plainToInstance(SocialMedia, createSocialMediaDto);
+
+    if (createSocialMediaDto.dj) {
+      const dj = await this.djRepository.findOneBy({
+        id: createSocialMediaDto.dj,
+      });
+
+      if (!dj) {
+        throw new NotFoundException(
+          `DJ with ID ${createSocialMediaDto.dj} not found`,
+        );
+      }
+
+      newSocialMedia.dj = dj;
+    }
+
     const savedSocialMedia =
       await this.socialMediaRepository.save(newSocialMedia);
 
