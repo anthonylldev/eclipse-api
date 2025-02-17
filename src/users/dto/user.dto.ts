@@ -11,14 +11,14 @@ export class UserDto {
 
   @ApiProperty({
     description: 'The name of the user',
-    example: 'John Doe',
+    example: 'User',
   })
   @Expose()
   name: string;
 
   @ApiProperty({
     description: 'Email address of the user',
-    example: 'johndoe@example.com',
+    example: 'user@example.com',
   })
   @Expose()
   email: string;

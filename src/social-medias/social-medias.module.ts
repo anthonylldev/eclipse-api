@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SocialMediasService } from './services/social-medias.service';
 import { SocialMediasController } from './controllers/social-medias.controller';
-import { DatabaseModule } from '../database/database.module';
+import { DatabaseModule } from '../common/database/database.module';
 import { socialMediaProvider } from './providers/social-media.provider';
 
 @Module({

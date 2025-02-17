@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { DjsService } from './services/djs.service';
 import { DjsController } from './controllers/djs.controller';
-import { DatabaseModule } from '../database/database.module';
+import { DatabaseModule } from '../common/database/database.module';
 import { djProvider } from './providers/dj.provider';
 
 @Module({

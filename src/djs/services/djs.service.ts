@@ -6,6 +6,7 @@ import { DjDto } from '../dto/dj.dto';
 import { plainToInstance } from 'class-transformer';
 import { DJ_REPOSITORY } from '../../config/constants/repositories.constant';
 import { Repository } from 'typeorm';
+import { EntityListDto } from '../../common/dto/entity-list.dto';
 
 @Injectable()
 export class DjsService {
@@ -20,16 +21,21 @@ export class DjsService {
     });
   }
 
-  async findAll(): Promise<DjDto[]> {
+  async findAll(): Promise<EntityListDto[]> {
     const djs = await this.djRepository.find();
 
     return djs.map((dj) =>
-      plainToInstance(DjDto, dj, { excludeExtraneousValues: true }),
+      plainToInstance(EntityListDto, dj, {
+        excludeExtraneousValues: true,
+      }),
     );
   }
 
   async findOne(id: number): Promise<DjDto> {
-    const dj = await this.djRepository.findOneBy({ id });
+    const dj = await this.djRepository.findOne({
+      where: { id },
+      relations: ['socialMedias'],
+    });
 
     if (!dj) {
       throw new NotFoundException(`Dj with ID "${id}" not found`);
@@ -37,6 +43,7 @@ export class DjsService {
 
     return plainToInstance(DjDto, dj, {
       excludeExtraneousValues: true,
+      enableImplicitConversion: true,
     });
   }
 

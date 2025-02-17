@@ -28,6 +28,7 @@ import {
 } from '@nestjs/swagger';
 import { PassportJwtGuard } from '../../auth/guards/passport-jwt/passport-jwt.guard';
 import { ExceptionResponseDto } from '../../common/dto/exception-response.dto';
+import { EntityListDto } from '../../common/dto/entity-list.dto';
 
 @Controller('djs')
 @ApiTags('Djs')
@@ -63,9 +64,9 @@ export class DjsController {
   })
   @ApiOkResponse({
     description: 'List of all djs retrieved successfully.',
-    type: DjDto,
+    type: EntityListDto,
   })
-  findAll(): Promise<DjDto[]> {
+  findAll(): Promise<EntityListDto[]> {
     return this.djsService.findAll();
   }
 

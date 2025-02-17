@@ -16,7 +16,7 @@ export class AuthResultDto {
 
   @ApiProperty({
     description: 'The email address of the authenticated user.',
-    example: 'johndoe@example.com',
+    example: 'user@example.com',
   })
   email: string;
 }

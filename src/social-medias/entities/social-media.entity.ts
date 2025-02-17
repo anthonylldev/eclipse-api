@@ -1,5 +1,11 @@
 import { SocialMediaType } from '../enums/social-media-type.enum';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Dj } from '../../djs/entities/dj.entity';
 
 @Entity()

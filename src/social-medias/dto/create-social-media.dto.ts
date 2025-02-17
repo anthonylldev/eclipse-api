@@ -12,7 +12,7 @@ export class CreateSocialMediaDto {
 
   @ApiProperty({
     description: 'The url of the social media',
-    example: 'https://www.instagram.com/johndoe/',
+    example: 'https://www.instagram.com/user/',
   })
   @IsUrl()
   @MinLength(5)

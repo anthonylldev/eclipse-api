@@ -1,7 +1,6 @@
 import {
   Column,
   Entity,
-  JoinTable,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -23,10 +22,11 @@ export class Dj {
   @Column({ length: 2048, nullable: true })
   imageUrl: string;
 
-  @OneToMany(() => SocialMedia, (socialMedia) => socialMedia.dj)
+  @OneToMany(() => SocialMedia, (socialMedia) => socialMedia.dj, {
+    cascade: ['insert', 'update'],
+  })
   socialMedias: SocialMedia[];
 
   @ManyToMany(() => ClubEvent, (clubEvent) => clubEvent.djs)
-  @JoinTable()
   clubEvents: ClubEvent[];
 }

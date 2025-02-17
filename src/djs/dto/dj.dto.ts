@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
+import { SocialMediaDto } from '../../social-medias/dto/social-media.dto';
 
 export class DjDto {
   @ApiProperty({
@@ -36,4 +37,13 @@ export class DjDto {
   })
   @Expose()
   imageUrl: string;
+
+  @ApiPropertyOptional({
+    description: 'Social media links for the dj',
+    type: SocialMediaDto,
+    isArray: true,
+  })
+  @Expose()
+  @Type(() => SocialMediaDto)
+  socialMedias: SocialMediaDto[];
 }

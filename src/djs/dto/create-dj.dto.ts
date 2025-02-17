@@ -7,6 +7,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { CreateSocialMediaDto } from '../../social-medias/dto/create-social-media.dto';
 
 export class CreateDjDto {
   @ApiProperty({
@@ -45,4 +46,12 @@ export class CreateDjDto {
   @MinLength(5)
   @MaxLength(2048)
   imageUrl: string;
+
+  @ApiPropertyOptional({
+    description: 'Social media links for the dj',
+    type: CreateSocialMediaDto,
+    isArray: true,
+  })
+  @IsOptional()
+  socialMedias: CreateSocialMediaDto[];
 }
